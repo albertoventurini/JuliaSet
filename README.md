@@ -1,1 +1,1 @@
-![Screenshot](https://raw.github.com/albertoventurini/JuliaSet/master/juliaset.png)
+![Screenshot](https://raw.github.com/albertoventurini/JuliaSet/master/resources/juliaset.png)
