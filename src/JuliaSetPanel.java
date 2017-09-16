@@ -11,7 +11,7 @@ public class JuliaSetPanel extends JPanel {
 
     public JuliaSetPanel(final JuliaSetCalculator juliaSetCalculator, final int width, final int height) {
         this.juliaSetCalculator = juliaSetCalculator;
-        setPreferredSize(new Dimension(1200, 800));
+        setPreferredSize(new Dimension(width, height));
         setBackground(Color.white);
     }
 

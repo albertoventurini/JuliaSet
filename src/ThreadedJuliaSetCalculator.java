@@ -1,13 +1,10 @@
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.RecursiveAction;
-
-public class ForkJoinJuliaSetCalculator implements JuliaSetCalculator {
+public class ThreadedJuliaSetCalculator implements JuliaSetCalculator {
 
     private int width;
     private int height;
     private int[][] iterations;
 
-    public ForkJoinJuliaSetCalculator(final int width, final int height) {
+    public ThreadedJuliaSetCalculator(final int width, final int height) {
         this.width = width;
         this.height = height;
         iterations = new int[width][height];
@@ -16,19 +13,18 @@ public class ForkJoinJuliaSetCalculator implements JuliaSetCalculator {
     @Override
     public int[][] calculate(int maxIterations, double zoom, double cx, double cy, double moveX, double moveY) {
 
-        class JuliaTask extends RecursiveAction {
+        class JuliaTask implements Runnable {
 
             private int startInclusive;
             private int endExclusive;
-
-            private final int THRESHOLD = 10;
 
             JuliaTask(int startInclusive, int endExclusive) {
                 this.startInclusive = startInclusive;
                 this.endExclusive = endExclusive;
             }
 
-            private void computeDirectly() {
+            @Override
+            public void run() {
                 double zx, zy;
 
                 for(int x = startInclusive; x < endExclusive; x++) {
@@ -46,34 +42,34 @@ public class ForkJoinJuliaSetCalculator implements JuliaSetCalculator {
                     }
                 }
             }
-
-            @Override
-            protected void compute() {
-                if(endExclusive - startInclusive < THRESHOLD) {
-                    computeDirectly();
-                } else {
-                    int middle = (startInclusive + endExclusive) / 2;
-                    JuliaTask task1 = new JuliaTask(startInclusive, middle);
-                    JuliaTask task2 = new JuliaTask(middle, endExclusive);
-                    //invokeAll(task1, task2);
-                    task1.fork();
-                    task2.compute();
-                    task1.join(); // Interestingly, if I comment out this join, it seems to work ok???
-                }
-            }
         }
 
         long startTime = System.currentTimeMillis();
 
-        JuliaTask task = new JuliaTask(0, width);
-        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", Integer.toString(8));
-        ForkJoinPool.commonPool().invoke(task);
+        int NUM_THREADS = 128;
+        Thread[] threads = new Thread[NUM_THREADS];
+        int step = width / NUM_THREADS;
+
+        for(int i = 0; i < NUM_THREADS; i++) {
+            int start = i * step;
+            int end = (i + 1) * step;
+            if(end > width || i == NUM_THREADS - 1) end = width;
+            threads[i] = new Thread(new JuliaTask(start, end));
+            threads[i].start();
+        }
+
+        for(int i = 0; i < NUM_THREADS; i++) {
+            try {
+                threads[i].join();
+            } catch(Exception e) {
+                // No!
+            }
+        }
 
         long endTime = System.currentTimeMillis();
         System.out.println(endTime - startTime);
 
         return iterations;
-
     }
 
 }

@@ -5,9 +5,9 @@ public class MainClass {
 
     public static void main(String[] args) {
 
-        int width = 1200;
-        int height = 800;
-        JuliaSetCalculator juliaSetCalculator = new ForkJoinJuliaSetCalculator(width, height);
+        int width = 1600;
+        int height = 1000;
+        JuliaSetCalculator juliaSetCalculator = new ThreadedJuliaSetCalculator(width, height);
         JuliaSetPanel juliaSetPanel = new JuliaSetPanel(juliaSetCalculator, width, height);
 
         SwingUtilities.invokeLater(() -> {
