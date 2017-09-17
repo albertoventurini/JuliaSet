@@ -5,20 +5,12 @@ import com.albertoventurini.juliaset.calculator.JuliaSetCalculator;
 
 public class ThreadedJuliaSetCalculator implements JuliaSetCalculator {
 
-    private int width;
-    private int height;
-    private int[][] iterations;
-
-    public ThreadedJuliaSetCalculator(final int width, final int height) {
-        this.width = width;
-        this.height = height;
-        iterations = new int[width][height];
-    }
-
     @Override
     public int[][] calculate(final JuliaSetConfig config) {
 
-        int[][] result = new int[config.getWidth()][config.getHeight()];
+        int width = config.getWidth();
+        int height = config.getHeight();
+        int[][] iterations = new int[width][height];
         double zoom = config.getZoom();
         double moveX = config.getMoveX();
         double moveY = config.getMoveY();

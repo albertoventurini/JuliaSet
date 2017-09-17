@@ -6,19 +6,12 @@ import java.util.concurrent.*;
 
 
 public class ExecutorServiceJuliaSetCalculator implements JuliaSetCalculator {
-    private int width;
-    private int height;
-    private int[][] iterations;
-
-    public ExecutorServiceJuliaSetCalculator(final int width, final int height) {
-        this.width = width;
-        this.height = height;
-        iterations = new int[width][height];
-    }
 
     public int[][] calculate(final JuliaSetConfig config) {
 
-        int[][] result = new int[config.getWidth()][config.getHeight()];
+        int width = config.getWidth();
+        int height = config.getHeight();
+        int[][] iterations = new int[width][height];
         double zoom = config.getZoom();
         double moveX = config.getMoveX();
         double moveY = config.getMoveY();
@@ -58,7 +51,7 @@ public class ExecutorServiceJuliaSetCalculator implements JuliaSetCalculator {
 
         long startTime = System.currentTimeMillis();
 
-        ExecutorService executorService = Executors.newWorkStealingPool(8);
+        ExecutorService executorService = Executors.newFixedThreadPool(8);
         for(int x = 0; x < width; x++) {
             JuliaTask task = new JuliaTask(x);
             executorService.submit(task);

@@ -7,20 +7,12 @@ import java.util.concurrent.RecursiveAction;
 
 public class ForkJoinJuliaSetCalculator implements JuliaSetCalculator {
 
-    private int width;
-    private int height;
-    private int[][] iterations;
-
-    public ForkJoinJuliaSetCalculator(final int width, final int height) {
-        this.width = width;
-        this.height = height;
-        iterations = new int[width][height];
-    }
-
     @Override
     public int[][] calculate(final JuliaSetConfig config) {
 
-        int[][] result = new int[config.getWidth()][config.getHeight()];
+        int width = config.getWidth();
+        int height = config.getHeight();
+        int[][] iterations = new int[width][height];
         double zoom = config.getZoom();
         double moveX = config.getMoveX();
         double moveY = config.getMoveY();
