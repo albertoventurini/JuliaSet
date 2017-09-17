@@ -1,3 +1,5 @@
+package com.albertoventurini.juliaset;
+
 public class ThreadedJuliaSetCalculator implements JuliaSetCalculator {
 
     private int width;
@@ -62,7 +64,7 @@ public class ThreadedJuliaSetCalculator implements JuliaSetCalculator {
             try {
                 threads[i].join();
             } catch(Exception e) {
-                // No!
+                e.printStackTrace();
             }
         }
 

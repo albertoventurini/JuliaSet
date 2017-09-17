@@ -1,3 +1,5 @@
+package com.albertoventurini.juliaset;
+
 public interface JuliaSetCalculator {
 
     int[][] calculate(

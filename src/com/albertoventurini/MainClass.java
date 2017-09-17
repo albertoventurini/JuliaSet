@@ -1,3 +1,9 @@
+package com.albertoventurini;
+
+import com.albertoventurini.juliaset.JuliaSetCalculator;
+import com.albertoventurini.juliaset.JuliaSetPanel;
+import com.albertoventurini.juliaset.ThreadedJuliaSetCalculator;
+
 import javax.swing.*;
 import java.awt.*;
 

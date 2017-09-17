@@ -1,5 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
+package com.albertoventurini.juliaset;
+
 import java.util.concurrent.*;
 
 
