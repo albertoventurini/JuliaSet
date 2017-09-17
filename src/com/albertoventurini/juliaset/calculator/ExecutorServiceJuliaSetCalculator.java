@@ -1,4 +1,6 @@
-package com.albertoventurini.juliaset;
+package com.albertoventurini.juliaset.calculator;
+
+import com.albertoventurini.juliaset.JuliaSetConfig;
 
 import java.util.concurrent.*;
 
@@ -14,13 +16,15 @@ public class ExecutorServiceJuliaSetCalculator implements JuliaSetCalculator {
         iterations = new int[width][height];
     }
 
-    public int[][] calculate(
-            final int maxIterations,
-            final double zoom,
-            final double cx,
-            final double cy,
-            final double moveX,
-            final double moveY) {
+    public int[][] calculate(final JuliaSetConfig config) {
+
+        int[][] result = new int[config.getWidth()][config.getHeight()];
+        double zoom = config.getZoom();
+        double moveX = config.getMoveX();
+        double moveY = config.getMoveY();
+        int maxIterations = config.getMaxIterations();
+        double cx = config.getCx();
+        double cy = config.getCy();
 
         /**
          * Each task calculates one row. I.e. if we have 'width*height' iterations,

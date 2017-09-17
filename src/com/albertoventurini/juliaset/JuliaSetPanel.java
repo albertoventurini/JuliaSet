@@ -1,5 +1,7 @@
 package com.albertoventurini.juliaset;
 
+import com.albertoventurini.juliaset.calculator.JuliaSetCalculator;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,10 +12,12 @@ public class JuliaSetPanel extends JPanel {
     private double cY, cX;
 
     private JuliaSetCalculator juliaSetCalculator;
+    private JuliaSetConfig config;
 
-    public JuliaSetPanel(final JuliaSetCalculator juliaSetCalculator, final int width, final int height) {
+    public JuliaSetPanel(final JuliaSetCalculator juliaSetCalculator, final JuliaSetConfig config) {
         this.juliaSetCalculator = juliaSetCalculator;
-        setPreferredSize(new Dimension(width, height));
+        this.config = config;
+        setPreferredSize(new Dimension(config.getWidth(), config.getHeight()));
         setBackground(Color.white);
     }
 
@@ -26,7 +30,7 @@ public class JuliaSetPanel extends JPanel {
         cY = 0.27015;
         double moveX = 0, moveY = 0;
 
-        int[][] iterations = juliaSetCalculator.calculate(maxIter, zoom, cX, cY, moveX, moveY);
+        int[][] iterations = juliaSetCalculator.calculate(config);
 
         for(int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {

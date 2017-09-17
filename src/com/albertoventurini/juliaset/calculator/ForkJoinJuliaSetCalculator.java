@@ -1,4 +1,6 @@
-package com.albertoventurini.juliaset;
+package com.albertoventurini.juliaset.calculator;
+
+import com.albertoventurini.juliaset.JuliaSetConfig;
 
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
@@ -16,13 +18,22 @@ public class ForkJoinJuliaSetCalculator implements JuliaSetCalculator {
     }
 
     @Override
-    public int[][] calculate(int maxIterations, double zoom, double cx, double cy, double moveX, double moveY) {
+    public int[][] calculate(final JuliaSetConfig config) {
+
+        int[][] result = new int[config.getWidth()][config.getHeight()];
+        double zoom = config.getZoom();
+        double moveX = config.getMoveX();
+        double moveY = config.getMoveY();
+        int maxIterations = config.getMaxIterations();
+        double cx = config.getCx();
+        double cy = config.getCy();
 
         class JuliaTask extends RecursiveAction {
 
             private int startInclusive;
             private int endExclusive;
 
+            // When the problem size is too small to be divided into subproblems
             private final int THRESHOLD = 10;
 
             JuliaTask(int startInclusive, int endExclusive) {

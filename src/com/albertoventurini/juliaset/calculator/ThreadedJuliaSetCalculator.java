@@ -1,4 +1,7 @@
-package com.albertoventurini.juliaset;
+package com.albertoventurini.juliaset.calculator;
+
+import com.albertoventurini.juliaset.JuliaSetConfig;
+import com.albertoventurini.juliaset.calculator.JuliaSetCalculator;
 
 public class ThreadedJuliaSetCalculator implements JuliaSetCalculator {
 
@@ -13,7 +16,15 @@ public class ThreadedJuliaSetCalculator implements JuliaSetCalculator {
     }
 
     @Override
-    public int[][] calculate(int maxIterations, double zoom, double cx, double cy, double moveX, double moveY) {
+    public int[][] calculate(final JuliaSetConfig config) {
+
+        int[][] result = new int[config.getWidth()][config.getHeight()];
+        double zoom = config.getZoom();
+        double moveX = config.getMoveX();
+        double moveY = config.getMoveY();
+        int maxIterations = config.getMaxIterations();
+        double cx = config.getCx();
+        double cy = config.getCy();
 
         class JuliaTask implements Runnable {
 

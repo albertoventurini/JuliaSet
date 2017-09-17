@@ -1,8 +1,9 @@
 package com.albertoventurini;
 
-import com.albertoventurini.juliaset.JuliaSetCalculator;
+import com.albertoventurini.juliaset.JuliaSetConfig;
+import com.albertoventurini.juliaset.calculator.JuliaSetCalculator;
 import com.albertoventurini.juliaset.JuliaSetPanel;
-import com.albertoventurini.juliaset.ThreadedJuliaSetCalculator;
+import com.albertoventurini.juliaset.calculator.ThreadedJuliaSetCalculator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +14,10 @@ public class MainClass {
 
         int width = 1600;
         int height = 1000;
-        JuliaSetCalculator juliaSetCalculator = new ThreadedJuliaSetCalculator(width, height);
-        JuliaSetPanel juliaSetPanel = new JuliaSetPanel(juliaSetCalculator, width, height);
+        JuliaSetCalculator calculator = new ThreadedJuliaSetCalculator(width, height);
+        JuliaSetConfig config = new JuliaSetConfig(width, height, 1000, 1.0,
+                -0.7, 0.27015, 0.0, 0.0);
+        JuliaSetPanel juliaSetPanel = new JuliaSetPanel(calculator, config);
 
         SwingUtilities.invokeLater(() -> {
             JFrame f = new JFrame();
